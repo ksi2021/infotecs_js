@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import Form from "./Todo/Form";
+import List from "./Todo/List";
 
 function App() {
+  const [TodoList, ListActions] = React.useState([
+    { title: "test1", status: 0, display: "block" },
+    { title: "test2", status: 1, display: "block" },
+    { title: "test3", status: 1, display: "block" },
+  ]);
+  const [Modal, ModalAction] = React.useState("block");
+  const [obj, objEvents] = React.useState({});
+
+  const load = (data,id) => {data.id = id;objEvents(data) };
+  const hide = () => ModalAction("none");
+  const show = () => ModalAction("block");
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <List list={TodoList} load={load} action={ListActions}></List>,
+      <Form
+        visible={Modal}
+        list={TodoList}
+        obj = {obj}
+        oEv = {objEvents}
+        actions={ListActions}
+        hide={hide}
+      ></Form>
     </div>
   );
 }
